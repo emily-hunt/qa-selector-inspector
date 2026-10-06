@@ -1,23 +1,75 @@
-# Hi, I'm Emily 👋
+# QA Selector Inspector
 
-SDET. I build tools that make test suites trustworthy — the kind of tooling
-that turns "CI is red again, just re-run it" into a five-minute triage.
+A Chrome extension that answers the question every test author asks ten
+times a day: **"what's the best selector for this element?"**
 
-## What I build
+Hover over any element on any page and get an instantly graded selector —
+`Excellent` to `Poor` — with the reason why, plus copy-paste-ready code
+for your framework and language. Click to copy. Alt+click for XPath.
 
-| Project | Story |
+## Why this exists
+
+Half of test flakiness starts before a single line of test code is
+written — at selector choice. `div:nth-child(3) > .css-1a2b3c` passes
+today and breaks on the next deploy. Everyone knows `data-testid` is
+better, but in the moment — staring at DevTools, copying a class chain —
+the resilient choice is the slow one, so nobody makes it.
+
+This flips that: the tooltip grades every candidate selector on the
+spot, explains the grade in plain language, and hands you the code.
+Picking the stable selector becomes faster than picking the fragile one.
+
+## How it grades
+
+| Grade | Selector | Why |
+|---|---|---|
+| ★ Excellent | `data-testid`, `data-cy`, `data-test`, `data-qa`, `data-e2e` | Purpose-built for testing — survives redesigns |
+| ● Good | stable `#id`, `aria-label`, `name`, `for` | Unique and semantic |
+| ◎ Fair | `role`, `placeholder`, `alt`, visible text | Readable, but can change with copy |
+| △ Weak | `.class` selectors | Breaks when styles are refactored |
+| ✗ Poor | tag only | Extremely fragile |
+
+Two things it checks that most selector tools don't:
+
+- **Uniqueness** — every candidate is verified with `querySelectorAll`.
+  A "good" selector that matches 14 elements gets flagged, not recommended.
+- **Auto-generated IDs** — `react-`, `ng-`, hashes, numeric-only IDs are
+  detected and downgraded. An ID that changes on rebuild is worse than no ID.
+
+The tooltip shows the best pick plus the top 3 alternatives with their
+grades, so you can trade off when the ideal attribute isn't there.
+
+## Code generation
+
+Pick your framework and language once in the popup; every hover shows
+ready-to-paste code:
+
+| Framework | Languages |
 |---|---|
-| [**visual-review**](https://github.com/qa-solutions/visual-review) | Our visual tests cried wolf: a 1pt font bump failed the build, and the team learned to ignore red. So I built a screenshot comparator with a third verdict — *needs review* — between pass and fail. Published on npm, running in Jenkins. |
-| [**qa-selector-inspector**](https://github.com/qa-solutions/qa-selector-inspector) | Half of test flakiness starts at the selector: `div:nth-child(3) > .css-1a2b3c` breaks on the next deploy. A Chrome extension that grades every selector on the page from Excellent to Poor and generates copy-paste code for 7 frameworks — so the resilient choice is also the easy one. |
+| Cypress | JS, TS |
+| Playwright | JS, TS, Python, Java, C# |
+| Selenium / WebDriver | JS, TS, Python, Java, C#, Ruby |
+| PyTest | Python |
+| TestCafe | JS, TS |
+| WebdriverIO | JS, TS |
+| Puppeteer | JS, TS |
 
-## Talks
+## Install
 
-- *Taming Flaky Snapshots* — Knowledge Sharing, Oct 2026. Proposing visual-review as our Cypress + Playwright snapshot tool: the needs-review verdict, the one-click accept UI, and the codemod migration path.
+1. Clone this repo.
+2. Open `chrome://extensions`, enable **Developer mode**.
+3. **Load unpacked** → select the extension folder.
+4. Click the toolbar icon, toggle the inspector on, hover anything.
 
-## Currently exploring
+Config (framework + language) syncs via `chrome.storage.sync`.
 
-Test platform engineering: quarantining, flake analytics, and CI that stays green without hiding real regressions.
+## Files
 
----
-
-*The best test suite is the one the team still trusts on a Friday afternoon.*
+| File | What it does |
+|---|---|
+| `manifest.json` | Manifest V3, `activeTab` + `storage` permissions only |
+| `content.js` | Selector engine (grading, uniqueness, auto-ID detection), tooltip UI, code generation, click-to-copy / Alt+click-XPath |
+| `content.css` | Tooltip + highlight styles |
+| `popup.html` / `popup.js` / `popup.css` | Toolbar popup: toggle, framework/language config, priority legend |
+| `background.js` | Relays the toggle message to the active tab |
+| `demo.html` | Local demo page for trying it out |
