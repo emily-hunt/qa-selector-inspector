@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="440" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="shadow"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="440" height="280" fill="url(#bg)"/>
+
+  <!-- Glow blobs -->
+  <circle cx="80"  cy="60"  r="90" fill="#6366f1" opacity="0.12" filter="url(#blur)"/>
+  <circle cx="380" cy="220" r="80" fill="#818cf8" opacity="0.10" filter="url(#blur)"/>
+
+  <!-- Grid dots -->
+  <g opacity="0.06" fill="#818cf8">
+    <circle cx="40"  cy="40"  r="1.5"/><circle cx="80"  cy="40"  r="1.5"/><circle cx="120" cy="40"  r="1.5"/>
+    <circle cx="160" cy="40"  r="1.5"/><circle cx="200" cy="40"  r="1.5"/><circle cx="240" cy="40"  r="1.5"/>
+    <circle cx="280" cy="40"  r="1.5"/><circle cx="320" cy="40"  r="1.5"/><circle cx="360" cy="40"  r="1.5"/>
+    <circle cx="400" cy="40"  r="1.5"/><circle cx="40"  cy="80"  r="1.5"/><circle cx="80"  cy="80"  r="1.5"/>
+    <circle cx="120" cy="80"  r="1.5"/><circle cx="160" cy="80"  r="1.5"/><circle cx="200" cy="80"  r="1.5"/>
+    <circle cx="240" cy="80"  r="1.5"/><circle cx="280" cy="80"  r="1.5"/><circle cx="320" cy="80"  r="1.5"/>
+    <circle cx="360" cy="80"  r="1.5"/><circle cx="400" cy="80"  r="1.5"/>
+  </g>
+
+  <!-- Icon circle -->
+  <circle cx="220" cy="108" r="38" fill="#1e293b" stroke="#6366f1" stroke-width="1.5" filter="url(#shadow)"/>
+  <!-- Magnifier icon -->
+  <circle cx="215" cy="103" r="14" fill="none" stroke="#818cf8" stroke-width="3"/>
+  <line x1="225" y1="113" x2="234" y2="122" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+  <!-- Plus inside -->
+  <line x1="215" y1="97" x2="215" y2="109" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <line x1="209" y1="103" x2="221" y2="103" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Title -->
+  <text x="220" y="168" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="22" font-weight="700" fill="#f1f5f9" letter-spacing="-0.5">QA Selector Inspector</text>
+
+  <!-- Subtitle -->
+  <text x="220" y="192" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="13" fill="#94a3b8">Hover any element. Get the perfect test selector.</text>
+
+  <!-- Pills row -->
+  <g transform="translate(220,220)" text-anchor="middle">
+    <!-- Cypress pill -->
+    <rect x="-168" y="-12" width="72" height="24" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="-132" y="4" font-family="monospace" font-size="11" fill="#818cf8">Cypress</text>
+    <!-- Playwright pill -->
+    <rect x="-88" y="-12" width="84" height="24" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="-46" y="4" font-family="monospace" font-size="11" fill="#818cf8">Playwright</text>
+    <!-- Selenium pill -->
+    <rect x="4" y="-12" width="76" height="24" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="42" y="4" font-family="monospace" font-size="11" fill="#818cf8">Selenium</text>
+    <!-- More pill -->
+    <rect x="88" y="-12" width="56" height="24" rx="12" fill="#6366f1" stroke="none"/>
+    <text x="116" y="4" font-family="monospace" font-size="11" fill="#fff">+ more</text>
+  </g>
+
+  <!-- Bottom tagline -->
+  <text x="220" y="262" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="11" fill="#475569">Free • Open Source • Chrome Extension</text>
+</svg>

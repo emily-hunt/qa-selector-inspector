@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Selector Inspector</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="icons/logo32.png" width="28" height="28" alt="QA Inspector logo" class="logo-icon" />
+        <span class="logo-text">QA Inspector</span>
+      </div>
+      <label class="toggle-wrap" title="Toggle inspector">
+        <input type="checkbox" id="toggleInspector" />
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Inspector off — enable to start</span>
+    </div>
+
+    <!-- Config -->
+    <div class="section-label">Configuration</div>
+
+    <div class="field-group">
+      <label class="field-label" for="framework">Testing Framework</label>
+      <select id="framework" class="select">
+        <option value="cypress">Cypress</option>
+        <option value="playwright">Playwright</option>
+        <option value="pytest">PyTest</option>
+        <option value="selenium">Selenium / WebDriver</option>
+        <option value="testcafe">TestCafe</option>
+        <option value="webdriverio">WebdriverIO</option>
+        <option value="puppeteer">Puppeteer</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="language">Language</label>
+      <select id="language" class="select">
+        <option value="javascript">JavaScript</option>
+        <option value="typescript">TypeScript</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="csharp">C#</option>
+        <option value="ruby">Ruby</option>
+      </select>
+    </div>
+
+    <!-- Selector priority legend -->
+    <div class="section-label" style="margin-top:14px">Selector Priority</div>
+    <div class="priority-list">
+      <div class="priority-item"><span class="dot excellent"></span><span>data-testid / data-cy / data-test</span><span class="pill excellent">Excellent</span></div>
+      <div class="priority-item"><span class="dot good"></span><span>#id</span><span class="pill good">Good</span></div>
+      <div class="priority-item"><span class="dot good"></span><span>aria-label / name / role</span><span class="pill good">Good</span></div>
+      <div class="priority-item"><span class="dot fair"></span><span>.class selectors</span><span class="pill fair">Fair</span></div>
+      <div class="priority-item"><span class="dot poor"></span><span>tag only</span><span class="pill poor">Poor</span></div>
+    </div>
+
+    <div class="footer">
+      <span>Hover → inspect &nbsp;·&nbsp; Click → copy &nbsp;·&nbsp; Alt+click → XPath</span>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

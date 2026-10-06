@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QA Inspector — Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    /* Nav */
+    nav {
+      background: #0f172a;
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-logo { color: #818cf8; font-weight: 700; font-size: 16px; letter-spacing: -0.3px; }
+    .nav-link  { color: #94a3b8; font-size: 14px; text-decoration: none; }
+    .nav-link:hover { color: #e2e8f0; }
+    .nav-cta {
+      margin-left: auto;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Layout */
+    .page { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+
+    h1 { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+    .subtitle { color: #64748b; font-size: 15px; margin-bottom: 36px; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .card-title { font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Form */
+    .form-group { margin-bottom: 14px; }
+    label { display: block; font-size: 13px; color: #64748b; margin-bottom: 5px; }
+    input[type="text"], input[type="email"], input[type="password"], select, textarea {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-size: 14px;
+      color: #1e293b;
+      background: #f8fafc;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #6366f1; background: #fff; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary   { background: #6366f1; color: #fff; }
+    .btn-secondary { background: #f1f5f9; color: #475569; }
+    .btn-danger    { background: #fee2e2; color: #dc2626; }
+    .btn-success   { background: #dcfce7; color: #16a34a; }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 8px 12px; color: #64748b; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    tr:hover td { background: #f8fafc; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-green  { background: #dcfce7; color: #16a34a; }
+    .badge-yellow { background: #fef9c3; color: #ca8a04; }
+    .badge-red    { background: #fee2e2; color: #dc2626; }
+
+    /* Alerts */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .alert-info    { background: #eff6ff; color: #1d4ed8; border-left: 3px solid #3b82f6; }
+    .alert-success { background: #f0fdf4; color: #15803d; border-left: 3px solid #22c55e; }
+    .alert-warning { background: #fffbeb; color: #b45309; border-left: 3px solid #f59e0b; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; margin-bottom: 16px; background: #f1f5f9; padding: 4px; border-radius: 8px; }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #64748b;
+      border: none;
+      background: transparent;
+    }
+    .tab.active { background: #fff; color: #6366f1; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* Avatar row */
+    .user-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; color: #fff; flex-shrink: 0;
+    }
+    .user-name  { font-size: 14px; font-weight: 600; color: #1e293b; }
+    .user-email { font-size: 12px; color: #94a3b8; }
+    .user-role  { margin-left: auto; }
+
+    /* Checkbox / radio */
+    .check-group { display: flex; flex-direction: column; gap: 10px; }
+    .check-item  { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #334155; cursor: pointer; }
+    input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; accent-color: #6366f1; cursor: pointer; }
+
+    /* Search */
+    .search-wrap { position: relative; }
+    .search-wrap input { padding-left: 36px; }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
+
+    .full-width { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">⬡ Acme Dashboard</span>
+  <a class="nav-link" href="#">Overview</a>
+  <a class="nav-link" href="#">Rides</a>
+  <a class="nav-link" href="#">Users</a>
+  <a class="nav-link" href="#">Reports</a>
+  <button class="nav-cta" data-testid="nav-new-ride-btn">+ New Ride</button>
+</nav>
+
+<div class="page">
+  <h1>Ride Management</h1>
+  <p class="subtitle">Manage rides, drivers, and passengers across all programs.</p>
+
+  <div class="grid">
+
+    <!-- Login Form -->
+    <div class="card">
+      <div class="card-title">Sign In</div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" aria-label="Email address" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" aria-label="Password" />
+      </div>
+      <div class="form-group">
+        <label for="program">Program</label>
+        <select id="program" name="program" data-testid="program-select">
+          <option>Default Program</option>
+          <option>Program Alpha</option>
+          <option>Program Beta</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" data-testid="login-submit-btn" style="width:100%">Sign In</button>
+    </div>
+
+    <!-- Buttons showcase -->
+    <div class="card">
+      <div class="card-title">Actions</div>
+      <div class="btn-row">
+        <button class="btn btn-primary"   data-testid="assign-driver-btn">Assign Driver</button>
+        <button class="btn btn-secondary" data-testid="export-btn">Export CSV</button>
+        <button class="btn btn-success"   data-testid="approve-btn">Approve</button>
+        <button class="btn btn-danger"    data-testid="cancel-ride-btn">Cancel Ride</button>
+      </div>
+
+      <div class="card-title" style="margin-top:20px">Notifications</div>
+      <div class="alert alert-info"    role="alert">Driver is 5 minutes away.</div>
+      <div class="alert alert-success" role="alert">Ride completed successfully.</div>
+      <div class="alert alert-warning" role="alert">Passenger not confirmed yet.</div>
+    </div>
+
+    <!-- Data table -->
+    <div class="card full-width">
+      <div class="card-title">Recent Rides</div>
+      <div class="search-wrap" style="margin-bottom:14px">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="ride-search" placeholder="Search rides..." aria-label="Search rides" data-testid="ride-search-input" />
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-testid="tab-all">All</button>
+        <button class="tab"        data-testid="tab-active">Active</button>
+        <button class="tab"        data-testid="tab-completed">Completed</button>
+        <button class="tab"        data-testid="tab-cancelled">Cancelled</button>
+      </div>
+      <table id="rides-table" data-testid="rides-table">
+        <thead>
+          <tr>
+            <th>Ride ID</th>
+            <th>Passenger</th>
+            <th>Driver</th>
+            <th>Pickup</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-testid="ride-row-1001">
+            <td>#1001</td>
+            <td>Jane Smith</td>
+            <td>Carlos M.</td>
+            <td>09:00 AM</td>
+            <td><span class="badge badge-green">Completed</span></td>
+            <td><button class="btn btn-secondary" data-testid="view-ride-1001" style="padding:4px 10px;font-size:12px">View</button></td>
+          </tr>
+          <tr data-testid="ride-row-1002">
+            <td>#1002</td>
+            <td>Mark Johnson</td>
+            <td>Priya K.</td>
+            <td>10:30 AM</td>
+            <td><span class="badge badge-yellow">In Progress</span></td>
+            <td><button class="btn btn-secondary" data-testid="view-ride-1002" style="padding:4px 10px;font-size:12px">View</button></td>
+          </tr>
+          <tr data-testid="ride-row-1003">
+            <td>#1003</td>
+            <td>Amanda Lee</td>
+            <td>Unassigned</td>
+            <td>11:15 AM</td>
+            <td><span class="badge badge-red">Cancelled</span></td>
+            <td><button class="btn btn-secondary" data-testid="view-ride-1003" style="padding:4px 10px;font-size:12px">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Users -->
+    <div class="card">
+      <div class="card-title">Team Members</div>
+      <div class="user-row">
+        <div class="avatar" style="background:#6366f1">JD</div>
+        <div><div class="user-name">Jane Doe</div><div class="user-email">jane@acme.com</div></div>
+        <span class="badge badge-green user-role">Admin</span>
+      </div>
+      <div class="user-row">
+        <div class="avatar" style="background:#f59e0b">MJ</div>
+        <div><div class="user-name">Mark Johnson</div><div class="user-email">mark@acme.com</div></div>
+        <span class="badge badge-yellow user-role">Operator</span>
+      </div>
+      <div class="user-row">
+        <div class="avatar" style="background:#22c55e">AL</div>
+        <div><div class="user-name">Amanda Lee</div><div class="user-email">amanda@acme.com</div></div>
+        <span class="badge badge-green user-role">Driver</span>
+      </div>
+    </div>
+
+    <!-- Permissions checkboxes -->
+    <div class="card">
+      <div class="card-title">Permissions</div>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="perm-sendsms"   checked data-testid="perm-sendsms"   /> Send SMS to passengers</label>
+        <label class="check-item"><input type="checkbox" name="perm-export"    checked data-testid="perm-export"    /> Export ride data</label>
+        <label class="check-item"><input type="checkbox" name="perm-assign"          data-testid="perm-assign"    /> Assign drivers manually</label>
+        <label class="check-item"><input type="checkbox" name="perm-cancel"          data-testid="perm-cancel"    /> Cancel rides</label>
+        <label class="check-item"><input type="radio"    name="role" value="admin"   data-testid="role-admin"     /> Administrator</label>
+        <label class="check-item"><input type="radio"    name="role" value="operator" data-testid="role-operator" /> Operator</label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
